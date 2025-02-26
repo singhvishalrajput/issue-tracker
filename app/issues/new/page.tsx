@@ -28,6 +28,17 @@ const NewIssuePage = () => {
         resolver: zodResolver(createIssueSchema)
      })
 
+     const onSubmit = handleSubmit(async (data) => {
+        try {
+          setIsSubmitting(true)
+          await axios.post("/api/issues", data);
+          router.push("/issues");
+        } catch (error) {
+          setIsSubmitting(false)
+          setError("An unexpected error occured.");
+          console.log(error)
+        }
+      })
      
 
   return (
@@ -45,17 +56,7 @@ const NewIssuePage = () => {
       }
       <form
         className="max-w-xl space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setIsSubmitting(true)
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            setIsSubmitting(false)
-            setError("An unexpected error occured.");
-            console.log(error)
-          }
-        })}
+        onSubmit={onSubmit}
       >
         <div className='flex flex-col '>
         <TextField.Root
