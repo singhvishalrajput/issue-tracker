@@ -11,6 +11,7 @@ import { AiFillInfoCircle, } from 'react-icons/ai';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from 'zod'
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -57,9 +58,9 @@ const NewIssuePage = () => {
           placeholder="Search the docs…"
           {...register("title")}
         ></TextField.Root>
-        {errors.title && <Text color='red' as='p'
-        className='-mt-0'
-        >{errors.title.message}</Text>}
+        <ErrorMessage>
+            {errors.title?.message}
+        </ErrorMessage>
         </div>
 
         <div className='flex flex-col '>
@@ -70,9 +71,11 @@ const NewIssuePage = () => {
             <SimpleMDE placeholder="Description" {...field} />
           )}
         />
-        {errors.description && <Text color='red' as='p'
-        className='-mt-8'
-        >{errors.description.message}</Text>}
+            <div className='-mt-8'>
+                <ErrorMessage>
+                    {errors.description?.message}
+                </ErrorMessage>
+            </div>
         </div>
         <Button type="submit" className='cursor-pointer  hover:violet-800 space-y-4'>Submit New Issue</Button>
       </form>
